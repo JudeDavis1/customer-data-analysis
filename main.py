@@ -1,11 +1,26 @@
+import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
 def main():
     df = pd.read_csv('./data.csv')
-    # one(df)
-    six(df)
+    fns = [one, two, three, four, five, six, seven]
+
+    idx = validate_params()
+    # execute function
+    fns[idx - 1](df)
+
+
+def validate_params() -> int:
+    if len(sys.argv) != 2:
+        print('Usage: main.py (task number)')
+        exit(1)
+    
+    idx = int(sys.argv[1])
+    assert idx in list(range(1, 8)), 'Task number must be in the closed interval [1, 7]'
+
+    return idx
 
 
 def one(
