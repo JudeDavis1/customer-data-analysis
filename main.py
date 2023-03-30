@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 def main():
     df = pd.read_csv('./data.csv')
-    one(df)
+    # one(df)
+    six(df)
 
 
 def one(
@@ -25,38 +26,55 @@ def one(
 def two(
     df: pd.DataFrame
 ) -> None:
-    raise NotImplementedError()
+    new_df = pd.DataFrame({
+        "Age": df["Age"],
+        "Spending Score": df["Spending Score (1-100)"]
+    }).reset_index()
+    new_df.plot.scatter('Age', 'Spending Score')
+    plt.show()
 
 
 def three(
     df: pd.DataFrame
 ) -> None:
-    raise NotImplementedError()
+    new_df = df.reset_index(drop=True).groupby(['Profession', 'Gender'])
+    counts = new_df.size().unstack()
+    counts.plot.bar()
+    plt.show()
 
 
 def four(
     df: pd.DataFrame
 ) -> None:
-    raise NotImplementedError()
+    new_df = df.fillna('****')
+    print(new_df)
 
 
 def five(
     df: pd.DataFrame
 ) -> None:
-    raise NotImplementedError()
+    gender = df['Gender'].value_counts()
+    gender.plot.pie()
+    plt.show()
 
 
 def six(
     df: pd.DataFrame
 ) -> None:
-    raise NotImplementedError()
+    df['Annual Income ($)'].apply(
+        lambda income: 'greater' if income >= 50_000 else 'less'
+    ).value_counts().plot.pie()
+    plt.show()
+
 
 
 def seven(
     df: pd.DataFrame
 ) -> None:
-
-    raise NotImplementedError()
+    new_df = df[df['Profession'].isin(['Artist', 'Engineer'])]
+    grouped = new_df.groupby(['Profession'])['Spending Score (1-100)'].mean()
+    grouped.plot.bar()
+    plt.show()
 
 
 if __name__ == '__main__':
